@@ -7,7 +7,7 @@ module.exports.getRecords = function(startDate, endDate, minCount, maxCount, cal
             $match: {
                 $and: [
                     {createdAt: { $gt : startDate}},
-                    {createdAt: { $gt : endDate}},
+                    {createdAt: { $lt : endDate}},
                 ]
             }
         };
@@ -25,14 +25,12 @@ module.exports.getRecords = function(startDate, endDate, minCount, maxCount, cal
             $match: {
                 $and: [
                     {totalCount: { $gt : minCount}},
-                    {totalCount: { $gt : maxCount}},
+                    {totalCount: { $lt : maxCount}},
                 ]
             }
         };
 
-        const limit = {$limit: 10};
-
-        collection.aggregate([match, project, secondMatch, limit]).toArray(callback);
+        collection.aggregate([match, project, secondMatch]).toArray(callback);
     });
 };
 
