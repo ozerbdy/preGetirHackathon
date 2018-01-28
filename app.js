@@ -4,6 +4,7 @@ const express = require('express'),
     mongo = require('./db/mongo'),
     routes = require('./routes');
 
+const port = process.env.PORT || 3000;
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,13 +14,10 @@ app.use(bodyParser.json());
 
 app.use(routes);
 
-app.get('/', (req, res) => res.send('Hello World!'));
-
-
 mongo.init((err) => {
     if(err) throw err;
     console.log('Mongo connection established successfully!');
-    app.listen(3000, () => console.log('Example app listening on port 3000!'));
+    app.listen(port, () => console.log(`App listening on port ${port}!`));
 });
 
 
